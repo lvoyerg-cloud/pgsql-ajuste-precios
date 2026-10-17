@@ -1,33 +1,26 @@
-﻿CREATE OR REPLACE FUNCTION calcular_precio_ajustado(
+﻿-- Función escalar para calcular el precio ajustado con validaciones
+
+CREATE OR REPLACE FUNCTION calcular_precio_ajustado(
     precio_actual NUMERIC,
     porcentaje NUMERIC
 )
 RETURNS NUMERIC AS $$
-DECLARE
-    precio_calculado NUMERIC;
 BEGIN
+    -- Validar nulos
     IF precio_actual IS NULL OR porcentaje IS NULL THEN
-        RAISE EXCEPTION 'Los parámetros precio_actual y porcentaje no pueden ser NULL.'
-            USING ERRCODE = '22004';
+        RAISE EXCEPTION 'Los parámetros precio_actual y porcentaje no pueden ser NULL.';
     END IF;
 
+    -- Validar precio base
     IF precio_actual <= 0 THEN
-        RAISE EXCEPTION 'El precio actual debe ser mayor a cero. Valor ingresado: %', precio_actual
-            USING ERRCODE = '22003';
+        RAISE EXCEPTION 'El precio actual debe ser mayor a cero. Valor ingresado: %', precio_actual;
     END IF;
 
+    -- Validar rango de porcentaje (-50% a 100%)
     IF porcentaje < -50 OR porcentaje > 100 THEN
-        RAISE EXCEPTION 'El porcentaje debe estar comprendido entre -50 y 100. Valor ingresado: %', porcentaje
-            USING ERRCODE = '22003';
+        RAISE EXCEPTION 'El porcentaje debe estar comprendido entre -50 y 100. Valor ingresado: %', porcentaje;
     END IF;
 
-    precio_calculado := ROUND(precio_actual * (1 + porcentaje / 100.0), 2);
-
-    IF precio_calculado <= 0 THEN
-        RAISE EXCEPTION 'El precio resultante (%) tras aplicar el ajuste debe ser mayor a cero.', precio_calculado
-            USING ERRCODE = '22003';
-    END IF;
-
-    RETURN precio_calculado;
+    RETURN ROUND(precio_actual * (1 + porcentaje / 100.0), 2);
 END;
-$$ LANGUAGE plpgsql IMMUTABLE;
+$$ LANGUAGE plpgsql;

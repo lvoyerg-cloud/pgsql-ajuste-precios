@@ -12,3 +12,4 @@ Este repositorio contiene la solución completa para la implementación de lógi
 - sql/03_procedimiento.sql: Definición del procedimiento almacenado plicar_ajuste_precio.
 - sql/04_trigger_y_funcion.sql: Función de soporte y Trigger 	rg_auditar_cambio_precio.
 - sql/05_pruebas.sql: Batería de pruebas con los 8 casos exigidos.
+

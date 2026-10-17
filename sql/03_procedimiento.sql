@@ -1,8 +1,8 @@
-﻿CREATE OR REPLACE PROCEDURE aplicar_ajuste_precio(
+CREATE OR REPLACE PROCEDURE aplicar_ajuste_precio(
     p_id_producto INT,
     p_porcentaje NUMERIC
 )
-LANGUAGE plpgsql AS $
+LANGUAGE plpgsql AS $$
 DECLARE
     v_precio_actual NUMERIC;
     v_precio_nuevo NUMERIC;
@@ -27,4 +27,4 @@ BEGIN
     SET precio = v_precio_nuevo
     WHERE id_producto = p_id_producto;
 END;
-$;
+$$;

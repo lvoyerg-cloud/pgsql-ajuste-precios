@@ -2,7 +2,7 @@
     precio_actual NUMERIC,
     porcentaje NUMERIC
 )
-RETURNS NUMERIC AS $
+RETURNS NUMERIC AS $$
 DECLARE
     precio_calculado NUMERIC;
 BEGIN
@@ -30,4 +30,4 @@ BEGIN
 
     RETURN precio_calculado;
 END;
-$ LANGUAGE plpgsql IMMUTABLE;
+$$ LANGUAGE plpgsql IMMUTABLE;
